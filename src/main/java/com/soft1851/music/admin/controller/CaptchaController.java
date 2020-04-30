@@ -3,6 +3,7 @@ package com.soft1851.music.admin.controller;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.soft1851.music.admin.service.RedisService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -11,6 +12,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -23,6 +26,7 @@ import java.io.IOException;
  **/
 @RestController
 @Slf4j
+@Validated
 public class CaptchaController {
     @Resource
     private DefaultKaptcha defaultKaptcha;
@@ -30,7 +34,7 @@ public class CaptchaController {
     private RedisService redisService;
 
     @GetMapping("/captcha")
-    public void defaultCaptcha(String name) {
+    public void defaultCaptcha(@Valid @NotBlank(message = "name不能为空")String name) {
         //取得HttpServletResponse对象
         ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         assert sra != null;

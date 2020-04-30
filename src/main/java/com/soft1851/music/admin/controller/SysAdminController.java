@@ -10,6 +10,7 @@ import com.soft1851.music.admin.entity.SysRole;
 import com.soft1851.music.admin.service.SysAdminService;
 import com.soft1851.music.admin.util.JwtTokenUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +35,7 @@ import java.util.TreeMap;
 @RestController
 @RequestMapping(value = "/sysAdmin")
 @Slf4j
+@Validated
 public class SysAdminController {
     @Resource
     private SysAdminService sysAdminService;
@@ -43,7 +46,7 @@ public class SysAdminController {
      * @return String
      */
     @PostMapping("/login")
-    public Map login(@RequestBody LoginDto loginDto) {
+    public Map login(@RequestBody @Valid LoginDto loginDto) {
         log.info(loginDto.toString());
         return sysAdminService.login(loginDto);
     }
