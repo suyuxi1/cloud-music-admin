@@ -1,4 +1,3 @@
-
 server:
   port: 8080
 spring:
@@ -11,8 +10,10 @@ spring:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/cloud_music?useUnide=true&characterEncoding=UTF-8&useSSL=false&autoReconnect=true
+    #    url: jdbc:mysql://rm-m5ee476bu350735gjeo.mysql.rds.aliyuncs.com:3306/cloud_music?useUnide=true&characterEncoding=UTF-8&useSSL=false&autoReconnect=true
     username: root
     password: root
+    #    password: XuNiit_#
     hikari:
       # 最小连接数
       minimum-idle: 1

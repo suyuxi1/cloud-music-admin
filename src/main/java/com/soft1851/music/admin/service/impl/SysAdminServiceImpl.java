@@ -1,7 +1,9 @@
 package com.soft1851.music.admin.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.soft1851.music.admin.common.ResultCode;
+import com.soft1851.music.admin.dto.AdminDto;
 import com.soft1851.music.admin.dto.LoginDto;
 import com.soft1851.music.admin.entity.SysAdmin;
 import com.soft1851.music.admin.entity.SysRole;
@@ -54,9 +56,10 @@ public class SysAdminServiceImpl extends ServiceImpl<SysAdminMapper, SysAdmin> i
                 String roleString = JSONObject.toJSONString(roles);
                 log.info("管理员角色列表：" + roleString);
                 //通过该管理员的id、roles、私钥、指定过期时间生成token
-                String token = JwtTokenUtil.getToken(admin.getId(), JSONObject.toJSONString(roles),admin.getSalt(), new Date(System.currentTimeMillis() + 6000L * 1000L));
+                String token = JwtTokenUtil.getToken(admin.getId(), JSONObject.toJSONString(roles), admin.getSalt(), new Date(System.currentTimeMillis() + 6000L * 1000L));
                 //将私钥存入redis，在后面JWT拦截器中可以取出来对客户端请求头中的token解密
-                redisService.set(admin1.getId(), admin1.getSalt(), 100L);
+                redisService.set(admin1.getId(), admin1.getSalt(), 1000L);
+                log.info("密钥：" + admin1.getSalt());
                 Map<String, Object> map = new TreeMap<>();
                 map.put("admin", admin1);
                 map.put("token", token);
@@ -79,5 +82,16 @@ public class SysAdminServiceImpl extends ServiceImpl<SysAdminMapper, SysAdmin> i
     @Override
     public String getToken(String adminId, String roles, String secret, Date expiresAt) {
         return JwtTokenUtil.getToken(adminId, roles, secret, expiresAt);
+    }
+
+    @Override
+    public int updateAdmin(AdminDto adminDto) {
+        if (adminDto.getPassword() != null){
+            String password = Md5Util.getMd5(adminDto.getPassword(), true, 32);
+            adminDto.setPassword(password);
+            return sysAdminMapper.updateAdmin(adminDto);
+        }else {
+            return sysAdminMapper.updateAdmin(adminDto);
+        }
     }
 }

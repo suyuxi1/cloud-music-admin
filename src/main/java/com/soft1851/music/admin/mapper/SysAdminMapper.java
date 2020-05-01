@@ -1,9 +1,11 @@
 package com.soft1851.music.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.soft1851.music.admin.dto.AdminDto;
 import com.soft1851.music.admin.entity.SysAdmin;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 /**
  * <p>
@@ -29,4 +31,11 @@ public interface SysAdminMapper extends BaseMapper<SysAdmin> {
      */
     @Select("SELECT * FROM sys_admin WHERE name = #{name}")
     SysAdmin getSysAdminByName(@Param("name") String name);
+
+
+    @Update("UPDATE sys_admin SET avatar = #{avatar}, name = #{name}, password = #{password} WHERE id = #{id}")
+    int updateAdmin(AdminDto adminDto);
+
+
+
 }

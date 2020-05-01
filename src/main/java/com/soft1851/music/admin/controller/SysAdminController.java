@@ -4,6 +4,7 @@ package com.soft1851.music.admin.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.soft1851.music.admin.common.ResponseResult;
 import com.soft1851.music.admin.common.ResultCode;
+import com.soft1851.music.admin.dto.AdminDto;
 import com.soft1851.music.admin.dto.LoginDto;
 import com.soft1851.music.admin.entity.SysAdmin;
 import com.soft1851.music.admin.entity.SysRole;
@@ -49,5 +50,11 @@ public class SysAdminController {
     public Map login(@RequestBody @Valid LoginDto loginDto) {
         log.info(loginDto.toString());
         return sysAdminService.login(loginDto);
+    }
+
+    @PostMapping("/u")
+    public ResponseResult update(@RequestBody AdminDto adminDto) {
+        log.info(adminDto.toString());
+        return ResponseResult.success(sysAdminService.updateAdmin(adminDto));
     }
 }

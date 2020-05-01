@@ -34,7 +34,7 @@ public class CaptchaController {
     private RedisService redisService;
 
     @GetMapping("/captcha")
-    public void defaultCaptcha(@Valid @NotBlank(message = "name不能为空")String name) {
+    public void defaultCaptcha(String name) {
         //取得HttpServletResponse对象
         ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         assert sra != null;
