@@ -54,4 +54,23 @@ public interface SysAdminService extends IService<SysAdmin> {
     int updateAdmin(AdminDto adminDto);
 
 
+    int updateAdminAvatar(AdminDto adminDto);
+
+
+    /**
+     * 根据id获取admin
+     *
+     * @param id
+     * @return SysAdminDto
+     */
+    SysAdmin getSysAdminById(String id);
+
+    /**
+     * 改头像
+     *
+     * @param adminDto
+     * @return
+     */
+    void updateAvatar(AdminDto adminDto);
+
 }

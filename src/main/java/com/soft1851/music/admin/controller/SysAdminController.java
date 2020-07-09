@@ -1,33 +1,23 @@
 package com.soft1851.music.admin.controller;
 
 
-import com.alibaba.fastjson.JSONObject;
 import com.soft1851.music.admin.common.ResponseResult;
-import com.soft1851.music.admin.common.ResultCode;
 import com.soft1851.music.admin.dto.AdminDto;
 import com.soft1851.music.admin.dto.LoginDto;
-import com.soft1851.music.admin.entity.SysAdmin;
-import com.soft1851.music.admin.entity.SysRole;
 import com.soft1851.music.admin.service.SysAdminService;
-import com.soft1851.music.admin.util.JwtTokenUtil;
+import com.soft1851.music.admin.util.AliOssUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import java.util.Date;
-import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author su
@@ -43,6 +33,7 @@ public class SysAdminController {
 
     /**
      * 管理员登录
+     *
      * @param loginDto
      * @return String
      */
@@ -56,5 +47,19 @@ public class SysAdminController {
     public ResponseResult update(@RequestBody AdminDto adminDto) {
         log.info(adminDto.toString());
         return ResponseResult.success(sysAdminService.updateAdmin(adminDto));
+    }
+
+    @PostMapping("/a")
+    public ResponseResult updateAvatar(@RequestBody AdminDto adminDto) {
+        log.info(adminDto.toString());
+        return ResponseResult.success(sysAdminService.updateAdminAvatar(adminDto));
+    }
+
+    @PostMapping("/upload")
+    public ResponseResult uploadFile(@RequestParam("file") MultipartFile multipartFile, @RequestParam("id") String id) {
+        String url = AliOssUtil.upload(multipartFile);
+        AdminDto adminDto = AdminDto.builder().id(id).avatar(url).build();
+        sysAdminService.updateAvatar(adminDto);
+        return ResponseResult.success(url);
     }
 }

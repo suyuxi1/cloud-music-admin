@@ -33,9 +33,20 @@ public interface SysAdminMapper extends BaseMapper<SysAdmin> {
     SysAdmin getSysAdminByName(@Param("name") String name);
 
 
-    @Update("UPDATE sys_admin SET avatar = #{avatar}, name = #{name}, password = #{password} WHERE id = #{id}")
+    @Update("UPDATE sys_admin SET  name = #{name}, password = #{password} WHERE id = #{id}")
     int updateAdmin(AdminDto adminDto);
 
+    @Update("UPDATE sys_admin SET avatar = #{avatar} WHERE id = #{id}")
+    int updateAdminAvatar(AdminDto adminDto);
+
+    /**
+     * 根据id查询admin基础信息，用于个人信息修改
+     * 避开其中的List<SysRole>属性，因为它没有映射字段
+     * @param id
+     * @return
+     */
+    @Select("SELECT id,name,password,avatar FROM sys_admin WHERE id = #{id}")
+    SysAdmin getSysAdminById(@Param("id") String id);
 
 
 }

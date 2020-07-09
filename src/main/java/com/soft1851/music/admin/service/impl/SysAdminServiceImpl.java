@@ -2,6 +2,7 @@ package com.soft1851.music.admin.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.soft1851.music.admin.common.ResultCode;
 import com.soft1851.music.admin.dto.AdminDto;
 import com.soft1851.music.admin.dto.LoginDto;
@@ -93,5 +94,25 @@ public class SysAdminServiceImpl extends ServiceImpl<SysAdminMapper, SysAdmin> i
         }else {
             return sysAdminMapper.updateAdmin(adminDto);
         }
+    }
+
+    @Override
+    public int updateAdminAvatar(AdminDto adminDto) {
+        return sysAdminMapper.updateAdminAvatar(adminDto);
+    }
+
+    @Override
+    public SysAdmin getSysAdminById(String id) {
+        return sysAdminMapper.getSysAdminById(id);
+    }
+
+    @Override
+    public void updateAvatar(AdminDto AdminDto) {
+        System.out.println(AdminDto);
+        SysAdmin sysAdmin = sysAdminMapper.getSysAdminById(AdminDto.getId());
+        UpdateWrapper<SysAdmin> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("id", AdminDto.getId());
+        sysAdmin.setAvatar(AdminDto.getAvatar());
+        sysAdminMapper.update(sysAdmin, updateWrapper);
     }
 }

@@ -2,6 +2,7 @@ package com.soft1851.music.admin.dto;
 
 import jdk.jfr.DataAmount;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,6 +16,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class AdminDto {
 
     private String id;
